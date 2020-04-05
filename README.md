@@ -1,6 +1,6 @@
 # Bracelet Pattern Generator
 a way to make bracelet patterns interactively yay
- #circle {
+#circle {
       width: 50px;
       height: 50px;
       -webkit-border-radius: 25px;
@@ -8,4 +8,4 @@ a way to make bracelet patterns interactively yay
       border-radius: 25px;
       background: red;
     }
-    <div id="circle"></div>
+<div id="circle"></div>
