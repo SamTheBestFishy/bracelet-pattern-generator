@@ -1,2 +1,2 @@
-# bracelet-pattern-generator
+# Bracelet Pattern Generator
 a way to make bracelet patterns interactively
