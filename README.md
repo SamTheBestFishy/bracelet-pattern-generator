@@ -8,3 +8,10 @@
         type="button">
     Click me
 </button>
+
+body {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, grey 1px, transparent 1px),
+    linear-gradient(to bottom, grey 1px, transparent 1px);
+}
