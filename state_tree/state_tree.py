@@ -7,5 +7,13 @@ class state_tree:
             self.strings = 2*self.width
         else:
             self.strings = strings
-        self.states = [set()]*self.height
-        
+        self.states = [[]]*self.height
+
+    # TODO: adjust for offset or odd number of strings
+    def check_validity(self, string_sequence, height):
+        knots = self.pattern[height]
+        preknots = [ string_sequence[i:i+2] for i in range(0, self.strings, 2) ]
+        for i in range(self.width):
+            if knots[i] not in preknots[i]:
+                return False
+        return True
