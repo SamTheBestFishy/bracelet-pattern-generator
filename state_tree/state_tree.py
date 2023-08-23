@@ -25,7 +25,7 @@ class state_tree:
         else: # This should never happen
             raise Exception("self.strings or row is not an integer")
 
-        # TODO: even strings, even row case        
+        # TODO: even strings, odd row case        
         for i in range(self.width):
             if knots[i] not in preknots[i]:
                 return False
