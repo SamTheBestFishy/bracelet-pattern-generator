@@ -47,6 +47,11 @@ class state_tree:
         #         return False
         # return True
         # # return all(knots[i] in preknots[i] for i in len(knots))
+
+
+    # science has gone too far - don't use this please
+    def is_valid_oneliner(self, string_seq, row):
+        return all(self.pattern[row][i] in [ string_seq[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ][i] for i in range(self.width-(row*(self.strings+1))%2))
     
 
     # TODO: better name for this method, fill out else statement, add terminate condition on reaching height
