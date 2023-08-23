@@ -49,15 +49,15 @@ class state_tree:
         # # return all(knots[i] in preknots[i] for i in len(knots))
     
 
-    # TODO: better name for this method, fill out else statement
-    def check_state(self):
+    # TODO: better name for this method, fill out else statement, add terminate condition on reaching height
+    def advance_dfs_stack(self):
         if self.dfs_stack:
             string_sequence, row = self.dfs_stack.pop()
             if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
                 self.states[row].append(string_sequence)
                 self.dfs_stack.append(children(string_sequence,row))
         else:
-            raise Exception("dfs_stack is empty, please add to it")
+            raise Exception("dfs_stack is empty, please add new root node to it")
         
 
 # TODO: define permutations (a permutation is list of indices that tells which strings to swap)
