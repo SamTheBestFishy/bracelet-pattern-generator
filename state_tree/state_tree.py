@@ -30,11 +30,12 @@ class state_tree:
             if knots[i] not in preknots[i]:
                 return False
         return True
-
+    # TODO: try to parallelize the checking
     def check_validity_faster_maybe(self, string_sequence, row):
         knots = self.pattern[row]
         preknots = [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ]
-        for i in range(self.width-((row+1)*self.strings)%2):
-            if knots[i] not in preknots[i]:
-                return False
-        return True
+        return all([knots[i] in preknots[i] for i in range(self.width-((row+1)*self.strings)%2)])
+        # for i in range(self.width-((row+1)*self.strings)%2):
+        #     if knots[i] not in preknots[i]:
+        #         return False
+        # return True
