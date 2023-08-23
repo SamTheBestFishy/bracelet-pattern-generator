@@ -10,7 +10,7 @@ class state_tree:
         self.states = [[]]*self.height
 
     # TODO: try to parallelize the checking
-    def check_validity(self, string_sequence, row):
+    def is_valid(self, string_sequence, row):
 
         knots = self.pattern[row]
 
@@ -36,7 +36,7 @@ class state_tree:
     def check_validity_faster_maybe(self, string_sequence, row):
         knots = self.pattern[row]
         preknots = [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ]
-        return all([knots[i] in preknots[i] for i in range(self.width-(row*(self.strings+1))%2)])
+        return all(knots[i] in preknots[i] for i in range(self.width-(row*(self.strings+1))%2))
     
         # knots = self.pattern[row]
         # if row%2 == 1 and self.strings%2 == 0:
@@ -46,4 +46,30 @@ class state_tree:
         #     if knots[i] not in preknots[i]:
         #         return False
         # return True
-        # # return all([knots[i] in preknots[i] for i in len(knots)])
+        # # return all(knots[i] in preknots[i] for i in len(knots))
+    
+
+    # TODO: better name for this method, fill out else statement
+    def check_state(self):
+        if self.dfs_stack:
+            string_sequence, row = self.dfs_stack.pop()
+            if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
+                self.states[row].append(string_sequence)
+                self.dfs_stack.append(children(string_sequence,row))
+        else:
+            raise Exception("dfs_stack is empty, please add to it")
+        
+
+# TODO: define permutations (a permutation is list of indices that tells which strings to swap)
+#       eg, the permutation [0,1,3,2] means keep the first two strings the same, but swap the last 2
+def children(string_seq, row):
+    children = set()
+    for permutation in permutations:
+        children.add((permute(string_seq,permutation),row+1))
+    return list(children)
+
+def permute(string_seq, permutation):
+    output = string_seq
+    for i in len(string_seq):
+        output[i] = string_seq[permutation[i]]
+    return output
