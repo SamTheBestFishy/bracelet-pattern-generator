@@ -73,6 +73,7 @@ def children(string_seq, row):
         children.add((permute(string_seq,permutation),row+1))
     return list(children)
 
+# TODO: doesn't work as strings are immutable, but this is the idea
 def permute(string_seq, permutation):
     output = string_seq
     for i in len(string_seq):
