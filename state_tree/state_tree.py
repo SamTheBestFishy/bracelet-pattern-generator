@@ -1,3 +1,5 @@
+from itertools import chain, combinations
+
 class state_tree:
     def __init__(self, pattern_array, strings=None):
         self.pattern = pattern_array
@@ -60,22 +62,28 @@ class state_tree:
             string_sequence, row = self.dfs_stack.pop()
             if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
                 self.states[row].append(string_sequence)
-                self.dfs_stack.append(children(string_sequence,row))
+                self.dfs_stack+=children(string_sequence,row)
         else:
             raise Exception("dfs_stack is empty, please add new root node to it")
         
 
-# TODO: define permutations (a permutation is list of indices that tells which strings to swap)
-#       eg, the permutation [0,1,3,2] means keep the first two strings the same, but swap the last 2
+# TODO: a permutation is list of indices that tells which strings to swap
+#       eg, the permutation [1,5] means swap strings at index 1 and 2, as well as strings at index 5 and 6
+# TODO: calculate max_permutation based on parity of self.strings and row
 def children(string_seq, row):
     children = set()
+    max_permutation = []
+    permutations = powerset(max_permutation)
     for permutation in permutations:
         children.add((permute(string_seq,permutation),row+1))
     return list(children)
 
-# TODO: doesn't work as strings are immutable, but this is the idea
+# TODO: figure out new way to do this using new definition of permutation
 def permute(string_seq, permutation):
     output = string_seq
     for i in len(string_seq):
         output[i] = string_seq[permutation[i]]
     return output
+
+def powerset(x):
+    return chain.from_iterable(combinations(x, r) for r in range(len(x)+1))
