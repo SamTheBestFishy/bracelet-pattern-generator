@@ -1,4 +1,4 @@
-from itertools import chain, combinations
+import itertools as it
 
 class state_tree:
     def __init__(self, pattern_array, strings=None):
@@ -86,4 +86,8 @@ def permute(string_seq, permutation):
     return output
 
 def powerset(x):
-    return chain.from_iterable(combinations(x, r) for r in range(len(x)+1))
+    return it.chain.from_iterable(it.combinations(x, r) for r in range(len(x)+1))
+
+def powerset_2(x):
+    for sl in it.product(*[[[], [i]] for i in x]):
+        yield {j for i in sl for j in i}
