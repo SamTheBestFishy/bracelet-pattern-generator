@@ -1,5 +1,7 @@
 import itertools as it
 
+
+# TODO: define state as tuple of (string_seq, row)
 class state_tree:
     def __init__(self, pattern_array, strings=None):
         self.pattern = pattern_array
@@ -10,6 +12,7 @@ class state_tree:
         else:
             self.strings = strings
         self.states = [[]]*self.height
+        self.dfs_stack = []
 
     # TODO: try to parallelize the checking
     def is_valid(self, string_sequence, row):
@@ -39,15 +42,11 @@ class state_tree:
         knots = self.pattern[row]
         preknots = [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ]
         return all(knots[i] in preknots[i] for i in range(self.width-(row*(self.strings+1))%2))
-    
+        
         # knots = self.pattern[row]
         # if row%2 == 1 and self.strings%2 == 0:
         #   knots.pop()
         # preknots = [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ]
-        # for i in len(knots):
-        #     if knots[i] not in preknots[i]:
-        #         return False
-        # return True
         # # return all(knots[i] in preknots[i] for i in len(knots))
 
 
@@ -74,17 +73,18 @@ def children(string_seq, row):
     children = set()
     max_permutation = []
     permutations = powerset(max_permutation)
-    for permutation in permutations:
+    for permutation in permutations: 
         children.add((permute(string_seq,permutation),row+1))
     return list(children)
 
-# TODO: figure out new way to do this using new definition of permutation
+# TODO: figure out new way to do this without loop
 def permute(string_seq, permutation):
     output = string_seq
-    for i in len(string_seq):
-        output[i] = string_seq[permutation[i]]
+    for i in permutation:
+        output = string_seq[:i] + string_seq[i:i+1] + string_seq[i+2:]
     return output
 
+# TODO: figure out which powerset function is faster
 def powerset(x):
     return it.chain.from_iterable(it.combinations(x, r) for r in range(len(x)+1))
 
