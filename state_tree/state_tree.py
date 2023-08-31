@@ -57,10 +57,13 @@ class state_tree:
 
     # TODO: better name for this method, fill out else statement, add terminate condition on reaching height
     def process_dfs_stack_item(self):
+        print("starting this function")
         if self.dfs_stack:
             string_sequence, row = self.dfs_stack.pop()
+            print("before if", self.is_valid(string_sequence,row), string_sequence, self.states[row])
             if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
                 self.states[row].append(string_sequence)
+                print("before children", string_seq)
                 self.dfs_stack+=children(string_sequence,row)
         else:
             raise Exception("dfs_stack is empty, please add new root node to it")
@@ -70,6 +73,7 @@ class state_tree:
 #       eg, the permutation [1,5] means swap strings at index 1 and 2, as well as strings at index 5 and 6
 # TODO: calculate max_permutation based on parity of self.strings and row
 def children(string_seq, row):
+    print("inside children", string_seq)
     children = set()
     max_permutation = []
     permutations = powerset(max_permutation)
