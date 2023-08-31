@@ -56,7 +56,7 @@ class state_tree:
     
 
     # TODO: better name for this method, fill out else statement, add terminate condition on reaching height
-    def advance_dfs_stack(self):
+    def process_dfs_stack_item(self):
         if self.dfs_stack:
             string_sequence, row = self.dfs_stack.pop()
             if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
