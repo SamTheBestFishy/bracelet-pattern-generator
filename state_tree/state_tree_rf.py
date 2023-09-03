@@ -1,18 +1,18 @@
 import itertools as it
 
 class state_tree:
-    def __init__(self, pattern_array, strings=None):
+    def __init__(self, pattern_array, string_count=None):
         self.pattern = pattern_array
         self.width = len(pattern_array[0])
         self.height = len(pattern_array)
-        if strings is None:
-            self.strings = 2*self.width
+        if string_count is None:
+            self.string_count = 2*self.width
         else:
-            self.strings = strings
+            self.string_count = string_count
         self.states = [[]]*self.height
         self.dfs_stack = []
-        self.parity = len(strings) % 2
-        self.max_permutations = [range(0, self.width - self.parity, 2),range(1, self.width - 1, 2)]
+        self.parity = self.string_count % 2
+        self.max_permutations = [range(0, self.string_count - self.parity, 2),range(1, self.string_count - 1, 2)]
 
 
     def process_dfs_stack_item(self):
