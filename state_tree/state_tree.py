@@ -1,7 +1,13 @@
 import itertools as it
 
+class parity_handler:
+    def __init__(self, strings):
+        self.parity = len(strings) % 2
 
-# TODO: define state as tuple of (string_seq, row)
+
+
+
+# TODO: define state as tuple of (string_sequence, row)
 class state_tree:
     def __init__(self, pattern_array, strings=None):
         self.pattern = pattern_array
@@ -51,19 +57,21 @@ class state_tree:
 
 
     # science has gone too far - don't use this please
-    def is_valid_oneliner(self, string_seq, row):
-        return all(self.pattern[row][i] in [ string_seq[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ][i] for i in range(self.width-(row*(self.strings+1))%2))
+    def is_valid_oneliner(self, string_sequence, row):
+        return all(self.pattern[row][i] in [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ][i] for i in range(self.width-(row*(self.strings+1))%2))
     
 
     # TODO: better name for this method, fill out else statement, add terminate condition on reaching height
     def process_dfs_stack_item(self):
         print("starting this function")
         if self.dfs_stack:
+            print(self.dfs_stack)
             string_sequence, row = self.dfs_stack.pop()
+            print(self.states)
             print("before if", self.is_valid(string_sequence,row), string_sequence, self.states[row])
             if self.is_valid(string_sequence,row) and string_sequence not in self.states[row]:
                 self.states[row].append(string_sequence)
-                print("before children", string_seq)
+                print("before children", string_sequence)
                 self.dfs_stack+=children(string_sequence,row)
         else:
             raise Exception("dfs_stack is empty, please add new root node to it")
@@ -72,21 +80,43 @@ class state_tree:
 # TODO: a permutation is list of indices that tells which strings to swap
 #       eg, the permutation [1,5] means swap strings at index 1 and 2, as well as strings at index 5 and 6
 # TODO: calculate max_permutation based on parity of self.strings and row
-def children(string_seq, row):
-    print("inside children", string_seq)
+def children(string_sequence, row):
+    print("inside children", string_sequence)
     children = set()
-    max_permutation = []
-    permutations = powerset(max_permutation)
+    max_permutation = calculate_max_permutation()
+    permutations = powerset_2(max_permutation)
+    print(permutations)
     for permutation in permutations: 
-        children.add((permute(string_seq,permutation),row+1))
+        print("inside for", permutation)
+        children.add((permute(string_sequence,permutation),row+1))
     return list(children)
 
 # TODO: figure out new way to do this without loop
-def permute(string_seq, permutation):
-    output = string_seq
+def permute(string_sequence, permutation):
+    print("inside permute", permutation)
+    output = string_sequence
     for i in permutation:
-        output = string_seq[:i] + string_seq[i:i+1] + string_seq[i+2:]
+        print(i)
+        output = string_sequence[:i] + string_sequence[i:i+1] + string_sequence[i+2:]
+        print("output", output)
     return output
+
+def calculate_max_permutation(length, row):
+    max_permutation = []
+
+    # Check the parity of self.strings and row
+    if self.strings % 2 == 0:
+        # For even self.strings, there is no need to adjust max_permutation
+        pass
+    elif row % 2 == 1:
+        # For odd self.strings and odd row, adjust max_permutation to exclude the last string
+        max_permutation = [i for i in range(self.strings - 1)]
+    else:
+        # For odd self.strings and even row, no adjustment is needed
+        max_permutation = [i for i in range(self.strings)]
+
+    return max_permutation
+
 
 # TODO: figure out which powerset function is faster
 def powerset(x):
@@ -95,3 +125,5 @@ def powerset(x):
 def powerset_2(x):
     for sl in it.product(*[[[], [i]] for i in x]):
         yield {j for i in sl for j in i}
+
+
