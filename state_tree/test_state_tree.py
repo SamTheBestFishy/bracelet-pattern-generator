@@ -22,8 +22,8 @@ class TestStateTree(unittest.TestCase):
         # Add more test cases here
 
     def test_check_validity_faster_maybe(self):
-        # Test check_validity_faster_maybe method using self.tree
-        pass
+        self.assertTrue(self.tree.check_validity_faster_maybe("ADBECF", 0))
+        self.assertFalse(self.tree.check_validity_faster_maybe("ABCDEF", 0))
 
     def test_process_dfs_stack_item_valid(self):
         # Add an item to the dfs_stack and test its processing
