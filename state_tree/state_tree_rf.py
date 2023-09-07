@@ -34,12 +34,6 @@ class state_tree:
     def is_row_valid(self, string_sequence, row):
         knots = self.pattern[row]
 
-        row_parity = row%2
-        parity_comparison = ()
-        preknots = [ string_sequence[i:i+2] for i in range(row_parity, self.string_count - (row_parity != self.parity), 2)]
-
-
-
-
-        preknots = [ string_sequence[i:i+2] for i in range(row%2, self.string_count-(row+self.string_count)%2, 2) ]
-        return all(knots[i] in preknots[i] for i in range(self.width-(row*(self.string_count+1))%2))
+        parity_comparison = (row%2 != self.parity)
+        preknots = [ string_sequence[i:i+2] for i in range(row_parity, self.string_count - parity_comparison, 2)]
+        return all(knots[i] in preknots[i] for i in range(self.width-(parity_comparison-self.parity)))
