@@ -3,7 +3,7 @@ from state_tree import state_tree
 from state_tree import powerset
 import itertools as it
 
-class TestStateTree(unittest.TestCase):
+class TestIsValids(unittest.TestCase):
 
     def setUp(self):
         # Create an instance of state_tree with a sample pattern
@@ -29,15 +29,18 @@ class TestStateTree(unittest.TestCase):
         self.assertTrue(self.tree.check_validity_faster_maybe("ABDEFC", 2))
         self.assertFalse(self.tree.check_validity_faster_maybe("ADBECF", 2))
 
-
-
     def test_is_row_valid(self):
         self.assertTrue(self.tree.is_row_valid("ADBECF", 0))
         self.assertFalse(self.tree.is_row_valid("ABCDEF", 0))
-        self.assertTrue(self.tree.check_validity_faster_maybe("ADBECF", 1))
-        self.assertFalse(self.tree.check_validity_faster_maybe("ABCDEF", 1))
-        self.assertTrue(self.tree.check_validity_faster_maybe("ABDEFC", 2))
-        self.assertFalse(self.tree.check_validity_faster_maybe("ADBECF", 2))
+        self.assertTrue(self.tree.is_row_valid("ADBECF", 1))
+        self.assertFalse(self.tree.is_row_valid("ABCDEF", 1))
+        self.assertTrue(self.tree.is_row_valid("ABDEFC", 2))
+        self.assertFalse(self.tree.is_row_valid("ADBECF", 2))
+
+class TestItemProcessor(unittest.TestCase):
+
+    def test(self):
+        pass
 
     # def test_process_dfs_stack_item_valid(self):
     #     # Add an item to the dfs_stack and test its processing
@@ -74,4 +77,13 @@ class TestStateTree(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # Create test suites
+    suite1 = unittest.TestLoader().loadTestsFromTestCase(TestIsValids)
+    #suite2 = unittest.TestLoader().loadTestsFromTestCase(TestItemProcessor)
+
+    # Create a test runner
+    runner = unittest.TextTestRunner()
+
+    # Run specific test suites
+    runner.run(suite1)
+    # runner.run(suite2)
