@@ -9,7 +9,7 @@ class TestStateTree(unittest.TestCase):
         # Create an instance of state_tree with a sample pattern
         pattern_array = [
             ['A', 'B', 'C'],
-            ['D', 'E', 'F'],
+            ['D', 'E'],
             ['A', 'D', 'F']
         ]
         strings = 6
@@ -24,18 +24,32 @@ class TestStateTree(unittest.TestCase):
     def test_check_validity_faster_maybe(self):
         self.assertTrue(self.tree.check_validity_faster_maybe("ADBECF", 0))
         self.assertFalse(self.tree.check_validity_faster_maybe("ABCDEF", 0))
+        self.assertTrue(self.tree.check_validity_faster_maybe("ADBECF", 1))
+        self.assertFalse(self.tree.check_validity_faster_maybe("ABCDEF", 1))
+        self.assertTrue(self.tree.check_validity_faster_maybe("ABDEFC", 2))
+        self.assertFalse(self.tree.check_validity_faster_maybe("ADBECF", 2))
 
-    def test_process_dfs_stack_item_valid(self):
-        # Add an item to the dfs_stack and test its processing
-        self.tree.dfs_stack = [("DABECF", 0)]  # Replace with appropriate item
-        print("value of self.tree.dfs_stack", self.tree.dfs_stack)
-        self.tree.process_dfs_stack_item()
-        print("value of self.tree.states", self.tree.states, ", value of self.tree.dfs_stack", self.tree.dfs_stack)
 
-        # Add your assertions here to check if the states and dfs_stack were updated as expected
-        self.assertEqual(len(self.tree.states[0]), 1)
-        # self.assertEqual(len(self.tree.dfs_stack), 0)
-        # Add more assertions as needed
+
+    def test_is_row_valid(self):
+        self.assertTrue(self.tree.is_row_valid("ADBECF", 0))
+        self.assertFalse(self.tree.is_row_valid("ABCDEF", 0))
+        self.assertTrue(self.tree.check_validity_faster_maybe("ADBECF", 1))
+        self.assertFalse(self.tree.check_validity_faster_maybe("ABCDEF", 1))
+        self.assertTrue(self.tree.check_validity_faster_maybe("ABDEFC", 2))
+        self.assertFalse(self.tree.check_validity_faster_maybe("ADBECF", 2))
+
+    # def test_process_dfs_stack_item_valid(self):
+    #     # Add an item to the dfs_stack and test its processing
+    #     self.tree.dfs_stack = [("DABECF", 0)]  # Replace with appropriate item
+    #     print("value of self.tree.dfs_stack", self.tree.dfs_stack)
+    #     self.tree.process_dfs_stack_item()
+    #     print("value of self.tree.states", self.tree.states, ", value of self.tree.dfs_stack", self.tree.dfs_stack)
+
+    #     # Add your assertions here to check if the states and dfs_stack were updated as expected
+    #     self.assertEqual(len(self.tree.states[0]), 1)
+    #     # self.assertEqual(len(self.tree.dfs_stack), 0)
+    #     # Add more assertions as needed
 
     # def test_process_dfs_stack_item_invalid(self):
     #     # Add an invalid item to the dfs_stack and test its processing

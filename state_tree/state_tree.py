@@ -19,6 +19,9 @@ class state_tree:
             self.strings = strings
         self.states = [[]]*self.height
         self.dfs_stack = []
+        self.parity = self.strings % 2
+        self.max_permutations = [range(0, self.strings - self.parity, 2),range(1, self.strings - 1, 2)]
+        self.permutations = powerset(self.max_permutations)
 
     # TODO: try to parallelize the checking
     def is_valid(self, string_sequence, row):
@@ -55,6 +58,13 @@ class state_tree:
         # preknots = [ string_sequence[i:i+2] for i in range(row%2, self.strings-(row+self.strings)%2, 2) ]
         # # return all(knots[i] in preknots[i] for i in len(knots))
 
+    def is_row_valid(self, string_sequence, row):
+        knots = self.pattern[row]
+        row_parity = row%2
+        parity_comparison = (row_parity != self.parity)
+        preknots = [ string_sequence[i:i+2] for i in range(row_parity, self.strings - parity_comparison, 2)]
+        return all(knots[i] in preknots[i] for i in range(self.width-(parity_comparison-self.parity)))
+
 
     # science has gone too far - don't use this please
     def is_valid_oneliner(self, string_sequence, row):
@@ -83,7 +93,7 @@ class state_tree:
 def children(string_sequence, row):
     print("inside children", string_sequence)
     children = set()
-    max_permutation = calculate_max_permutation()
+    max_permutation = calculate_max_permutation(len(string_sequence),row)
     permutations = powerset_2(max_permutation)
     print(permutations)
     for permutation in permutations: 
